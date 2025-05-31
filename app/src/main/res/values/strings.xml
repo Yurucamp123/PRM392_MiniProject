@@ -1,3 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MiniProject_CarRacing</string>
+    <!-- App Name -->
+    <string name="app_name">Game Đua Xe</string>
+
+    <!-- Guide Activity -->
+    <string name="guide_title">Hướng Dẫn Game</string>
+    <string name="guide_subtitle">Tìm hiểu cách chơi game đua xe</string>
+    <string name="back_button">Quay lại</string>
+
+    <!-- Tab Titles -->
+    <string name="tab_gameplay">Cách Chơi</string>
+    <string name="tab_rules">Thể Lệ</string>
+    <string name="tab_tips">Mẹo Hay</string>
+    <string name="tab_controls">Điều Khiển</string>
+
+    <!-- Guide Content Titles -->
+    <string name="gameplay_title">🎮 Cách Chơi Game Đua Xe</string>
+    <string name="gameplay_subtitle">Hướng dẫn chi tiết cách chơi game</string>
+
+    <string name="rules_title">📋 Thể Lệ và Quy Định</string>
+    <string name="rules_subtitle">Các quy định khi tham gia game</string>
+
+    <string name="tips_title">💡 Mẹo Chơi Hiệu Quả</string>
+    <string name="tips_subtitle">Những mẹo giúp bạn chơi tốt hơn</string>
+
+    <string name="controls_title">🎛️ Hướng Dẫn Điều Khiển</string>
+    <string name="controls_subtitle">Cách sử dụng các nút điều khiển</string>
+
+    <!-- Footer Tips -->
+    <string name="tip_gameplay">Mẹo: Đọc kỹ hướng dẫn để chơi game hiệu quả nhất!</string>
+    <string name="tip_rules">Mẹo: Tuân thủ thể lệ để có trải nghiệm chơi tốt nhất!</string>
+    <string name="tip_tips">Mẹo: Áp dụng những chiến thuật này để tăng cơ hội thắng!</string>
+    <string name="tip_controls">Mẹo: Làm quen với các nút điều khiển để chơi mượt mà hơn!</string>
+
+    <!-- Content Descriptions -->
+    <string name="car_icon">Biểu tượng xe đua</string>
+    <string name="back_icon">Nút quay lại</string>
+    <string name="logo_icon">Logo game</string>
+
+    <!-- Common Buttons -->
+    <string name="btn_start">Bắt Đầu</string>
+    <string name="btn_reset">Reset</string>
+    <string name="btn_login">Đăng Nhập</string>
+    <string name="btn_register">Đăng Ký</string>
+    <string name="btn_logout">Đăng Xuất</string>
+    <string name="btn_add_money">Nạp Tiền</string>
+
+    <!-- Game Elements -->
+    <string name="balance_label">Số dư:</string>
+    <string name="player_label">Người chơi:</string>
+    <string name="bet_amount_hint">Số tiền cược</string>
+    <string name="min_bet">Cược tối thiểu: 100 VND</string>
+
+    <!-- Car Names -->
+    <string name="red_car">Xe Đỏ</string>
+    <string name="blue_car">Xe Xanh</string>
+    <string name="green_car">Xe Xanh Lá</string>
+    <string name="yellow_car">Xe Vàng</string>
+    <string name="purple_car">Xe Tím</string>
+
+    <!-- Messages -->
+    <string name="insufficient_balance">Số dư không đủ!</string>
+    <string name="no_bet_placed">Vui lòng đặt cược trước khi bắt đầu!</string>
+    <string name="race_in_progress">Cuộc đua đang diễn ra...</string>
+    <string name="winner_announcement">Chúc mừng! Xe %1$s đã thắng!</string>
+    <string name="money_added">Đã nạp 5000 VND vào tài khoản!</string>
+
+    <!-- Statistics -->
+    <string name="total_races">Tổng số ván</string>
+    <string name="total_wins">Số ván thắng</string>
+    <string name="win_rate">Tỷ lệ thắng</string>
+    <string name="total_earnings">Tổng tiền thắng</string>
+    <string name="biggest_win">Thắng lớn nhất</string>
+    <string name="current_streak">Chuỗi thắng</string>
 </resources>
