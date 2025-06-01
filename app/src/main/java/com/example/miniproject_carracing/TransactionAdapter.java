@@ -15,11 +15,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvType, tvAmount;
+        TextView tvType, tvAmount, tvTime;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            tvType = itemView.findViewById(R.id.tvType);
-            tvAmount = itemView.findViewById(R.id.tvAmount);
+            tvType = itemView.findViewById(R.id.tvTransactionType);
+            tvAmount = itemView.findViewById(R.id.tvTransactionAmount);
+            tvTime = itemView.findViewById(R.id.tvTransactionTime);
         }
     }
 
@@ -33,11 +35,16 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         Transaction t = transactions.get(position);
         holder.tvType.setText(t.getType());
-        holder.tvAmount.setText("$" + t.getAmount());
+        holder.tvAmount.setText(formatCurrency(t.getAmount()));
+        holder.tvTime.setText(t.getDateTime());
     }
 
     @Override
     public int getItemCount() {
         return transactions.size();
+    }
+
+    private String formatCurrency(double amount) {
+        return String.format("%,.0f", amount).replace(',', '.') + " VND";
     }
 }

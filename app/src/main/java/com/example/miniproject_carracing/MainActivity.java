@@ -2,6 +2,7 @@ package com.example.miniproject_carracing;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView rv = findViewById(R.id.recyclerView);
         Button btnAddBet = findViewById(R.id.btnAddBet);
         Button btnWallet = findViewById(R.id.btnWallet);
+        Button btnViewHistory = findViewById(R.id.btnViewHistory);
+
         tvBalance = findViewById(R.id.tvBalance);
 
         adapter = new BetAdapter(GameSession.betHistory);
@@ -40,8 +43,17 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, WalletActivity.class);
             startActivityForResult(intent, 100); // Mở WalletActivity và đợi kết quả
         });
+        btnViewHistory.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RaceHistoryActivity.class);
+            startActivity(intent);
+        });
 
-        btnAddBet.setOnClickListener(v -> showBetDialog());
+
+        btnAddBet.setOnClickListener(v -> {
+            Log.d("MainActivity", "btnAddBet clicked");
+            showBetDialog();
+        });
+
     }
 
     private void showBetDialog() {
@@ -49,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Đặt cược");
 
         final EditText input = new EditText(this);
-        input.setHint("Nhập số tiền (vd: 5000)");
+        input.setHint("Nhập số tiền cược:");
         input.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
         builder.setView(input);
 
@@ -70,6 +82,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addUserBet(double amount) {
+        if (amount < 50000) {
+            Toast.makeText(this, "Số tiền cược tối thiểu là 50.000 VND!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (amount > GameSession.balance) {
             Toast.makeText(this, "Không đủ tiền trong ví!", Toast.LENGTH_SHORT).show();
             return;
@@ -77,19 +94,24 @@ public class MainActivity extends AppCompatActivity {
 
         Random rand = new Random();
         int raceId = rand.nextInt(100) + 1;
-        String result = rand.nextBoolean() ? "WIN" : "LOSE";
+        boolean isWin = rand.nextBoolean();
+        String result = isWin ? "THẮNG + " + formatCurrency(amount) : "THUA - " + formatCurrency(amount);
+        String winningCar = "Xe số " + (rand.nextInt(10) + 1); // giả sử có 10 xe
+        String dateTime = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date());
 
         GameSession.balance -= amount;
-        if (result.equals("WIN")) {
+        if (isWin) {
             GameSession.balance += amount * 2;
         }
 
-        GameSession.betHistory.add(new Bet(raceId, amount, result));
+        GameSession.betHistory.add(new Bet(raceId, amount, result, dateTime, winningCar));
         adapter.notifyDataSetChanged();
         updateBalanceUI();
 
         Toast.makeText(this, "Còn lại: " + formatCurrency(GameSession.balance), Toast.LENGTH_SHORT).show();
     }
+
+
 
     private void updateBalanceUI() {
         tvBalance.setText("Số dư: " + formatCurrency(GameSession.balance));

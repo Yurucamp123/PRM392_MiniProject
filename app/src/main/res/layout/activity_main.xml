@@ -1,7 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
@@ -9,35 +8,30 @@
         android:id="@+id/btnAddBet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Đặt cược mới (tự chọn)"
-        />
+        android:text="Đặt cược mới (tự chọn)" />
 
-<!--    <com.github.mikephil.charting.charts.PieChart-->
-<!--        android:id="@+id/pieChart"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="250dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        tools:ignore="MissingClass" />-->
     <TextView
         android:id="@+id/tvBalance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Số dư: 0 VND"
         android:textStyle="bold"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp"/>
+        android:layout_height="306dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1" />
+
     <Button
         android:id="@+id/btnViewHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lịch sử chơi"
+        android:text="Lịch sử đua"
         android:layout_marginTop="12dp" />
+
 
     <Button
         android:id="@+id/btnWallet"

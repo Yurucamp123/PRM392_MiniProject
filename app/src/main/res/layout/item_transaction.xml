@@ -1,18 +1,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:padding="10dp"
-    android:background="#FAFAFA" android:layout_marginBottom="4dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="#FAFAFA"
+    android:layout_marginBottom="4dp">
 
     <TextView
-        android:id="@+id/tvType"
+        android:id="@+id/tvTransactionType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Loại giao dịch" />
 
     <TextView
-        android:id="@+id/tvAmount"
+        android:id="@+id/tvTransactionAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="$0" />
+    <TextView
+        android:id="@+id/tvTransactionTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thời gian"
+        android:textColor="#888"
+        android:textSize="12sp"
+        android:layout_marginTop="4dp"/>
 </LinearLayout>
