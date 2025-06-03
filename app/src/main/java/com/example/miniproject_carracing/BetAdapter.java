@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -31,11 +32,37 @@ public class BetAdapter extends RecyclerView.Adapter<BetAdapter.BetViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull BetViewHolder holder, int position) {
         Bet bet = betList.get(position);
-        holder.tvRaceId.setText("Cuộc đua #" + bet.getRaceId());
+
+        // Race ID
+        holder.tvRaceId.setText("Cuộc đua: #" + bet.getRaceId());
+
+        // Amount - hiển thị với format đẹp
         holder.tvAmount.setText("Số tiền: " + formatCurrency(bet.getAmount()));
-        holder.tvResult.setText("Kết quả: " + bet.getResult());
+
+        // Result với styling theo trạng thái
+        String status = bet.getBetStatus();
+        holder.tvResult.setText(status);
+
+        // Styling cho status badge
+        if ("WIN".equals(status)) {
+            holder.tvResult.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.success));
+            holder.tvResult.setText("🎉 THẮNG");
+        } else {
+            holder.tvResult.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.error));
+            holder.tvResult.setText("😔 THUA");
+        }
+
+        // Winning car vs Selected car
+        String carInfo = "Xe thắng: " + bet.getWinningCar();
+        if (!bet.getSelectedCar().isEmpty()) {
+            carInfo = bet.getSelectedCar().equals(bet.getWinningCar()) ?
+                    "Xe thắng: ✅ " + bet.getWinningCar() :
+                    "Xe thắng: ❌ " + bet.getWinningCar();
+        }
+        holder.tvWinningCar.setText(carInfo);
+
+        // Date time
         holder.tvDateTime.setText("Thời gian: " + bet.getDateTime());
-        holder.tvWinningCar.setText("Xe thắng: " + bet.getWinningCar());
     }
 
     @Override
@@ -58,5 +85,11 @@ public class BetAdapter extends RecyclerView.Adapter<BetAdapter.BetViewHolder> {
 
     private String formatCurrency(double amount) {
         return String.format("%,.0f", amount).replace(',', '.') + " VND";
+    }
+
+    // Method to update the bet list
+    public void updateBetList(List<Bet> newBetList) {
+        this.betList = newBetList;
+        notifyDataSetChanged();
     }
 }
