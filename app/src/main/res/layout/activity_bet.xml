@@ -90,24 +90,24 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- New Bet Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAddBet"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="Đặt cược mới"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/primary_color"
-        app:cornerRadius="12dp"
-        app:icon="@drawable/ic_add_circle"
-        app:iconGravity="textStart"
-        app:iconSize="24dp"
-        app:iconTint="@color/white"
-        android:layout_marginBottom="20dp"
-        android:elevation="2dp"
-        app:rippleColor="@color/primary_ripple" />
+<!--    &lt;!&ndash; New Bet Button &ndash;&gt;-->
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btnAddBet"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="56dp"-->
+<!--        android:text="Đặt cược mới"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:textColor="@color/white"-->
+<!--        app:backgroundTint="@color/primary_color"-->
+<!--        app:cornerRadius="12dp"-->
+<!--        app:icon="@drawable/ic_add_circle"-->
+<!--        app:iconGravity="textStart"-->
+<!--        app:iconSize="24dp"-->
+<!--        app:iconTint="@color/white"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:elevation="2dp"-->
+<!--        app:rippleColor="@color/primary_ripple" />-->
 
     <!-- Recent Bets Section -->
     <TextView
