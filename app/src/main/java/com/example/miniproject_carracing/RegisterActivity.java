@@ -39,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             if (!username.matches("[a-zA-Z0-9]+")) {
-                Toast.makeText(this, " Username chỉ được nhập chữ và số", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Username chỉ được nhập chữ và số", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -50,15 +50,15 @@ public class RegisterActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
 
-            // Chuyển qua màn chơi game
-            Intent intent = new Intent(RegisterActivity.this, MainActivity.class); // Màn hình chơi game của bạn
-            startActivity(intent);
-            finish();
+            // 👉 Trả kết quả cho StartActivity
+            setResult(RESULT_OK);
+            finish(); // quay lại StartActivity
         });
+
 
         Button btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+            Intent intent = new Intent(RegisterActivity.this, StartActivity.class);
             startActivity(intent);
             finish(); // Đóng RegisterActivity
         });

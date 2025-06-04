@@ -35,7 +35,8 @@
         <activity android:name=".RegisterActivity" />
 
         <!-- Nếu có IntroActivity -->
-        <activity android:name=".IntroActivity" />
+        <activity android:name=".RacingActivity" />
+
 
     </application>
 </manifest>
