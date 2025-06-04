@@ -47,17 +47,33 @@ public class BetAdapter extends RecyclerView.Adapter<BetAdapter.BetViewHolder> {
         if ("WIN".equals(status)) {
             holder.tvResult.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.success));
             holder.tvResult.setText("🎉 THẮNG");
-        } else {
+        } else if ("LOSE".equals(status)) {
             holder.tvResult.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.error));
             holder.tvResult.setText("😔 THUA");
+        } else {
+            // Để tương thích với code cũ
+            if (status != null && status.contains("THẮNG")) {
+                holder.tvResult.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.success));
+                holder.tvResult.setText("🎉 THẮNG");
+            } else {
+                holder.tvResult.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.error));
+                holder.tvResult.setText("😔 THUA");
+            }
         }
 
-        // Winning car vs Selected car
-        String carInfo = "Xe thắng: " + bet.getWinningCar();
-        if (!bet.getSelectedCar().isEmpty()) {
-            carInfo = bet.getSelectedCar().equals(bet.getWinningCar()) ?
-                    "Xe thắng: ✅ " + bet.getWinningCar() :
-                    "Xe thắng: ❌ " + bet.getWinningCar();
+        // Car information với icon cho thắng/thua
+        String selectedCar = bet.getSelectedCar();
+        String winningCar = bet.getWinningCar();
+
+        String carInfo;
+        if (selectedCar != null && !selectedCar.isEmpty()) {
+            boolean isWin = selectedCar.equals(winningCar);
+            carInfo = String.format("Xe chọn: %s %s\nXe thắng: %s",
+                    selectedCar,
+                    isWin ? "✅" : "❌",
+                    winningCar);
+        } else {
+            carInfo = "Xe thắng: " + winningCar;
         }
         holder.tvWinningCar.setText(carInfo);
 
