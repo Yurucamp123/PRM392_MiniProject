@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Quyền cần thiết -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +16,11 @@
         android:theme="@style/Theme.MiniProject_CarRacing"
         tools:targetApi="31"
         >
+          <!-- Activity khởi chạy -->
+        <activity
+            android:name=".StartActivity"
+
+            android:exported="true">
         <activity
             android:name=".BetActivity"
             android:exported="true">
@@ -25,13 +33,19 @@
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 <!--        <activity android:name=".BetAdapter"/>-->
         <activity android:name=".WalletActivity" />
         <activity android:name=".RaceHistoryActivity" />
-    </application>
+       <!-- Activity chuyển đến layout đăng ký -->
+        <activity android:name=".RegisterActivity" />
 
+        <!-- Nếu có IntroActivity -->
+        <activity android:name=".RacingActivity" />
+
+
+    </application>
 </manifest>

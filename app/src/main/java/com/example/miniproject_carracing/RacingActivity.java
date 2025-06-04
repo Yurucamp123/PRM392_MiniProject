@@ -50,9 +50,11 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
     // Tên xe để đồng bộ với BetActivity
     private final String[] carNames = {"Xe đua đỏ", "Xe đua đen", "Xe mô tô xanh"};
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.acitivity_racing);
 
         initViews();
