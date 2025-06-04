@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_primary"
+    android:padding="20dp">
+
+    <!-- Header Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Đặt Cược"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary" />
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_notifications"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            android:contentDescription="Thông báo" />
+
+    </LinearLayout>
+
+    <!-- Balance Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/card_balance">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="20dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_wallet"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/button_primary"
+                android:padding="8dp"
+                android:contentDescription="Ví tiền" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Số dư hiện tại"
+                    android:textSize="14sp"
+                    android:textColor="@color/balance_text"
+                    android:alpha="0.8" />
+
+                <TextView
+                    android:id="@+id/tvBalance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 VND"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/balance_text"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+<!--    &lt;!&ndash; New Bet Button &ndash;&gt;-->
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btnAddBet"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="56dp"-->
+<!--        android:text="Đặt cược mới"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:textColor="@color/white"-->
+<!--        app:backgroundTint="@color/primary_color"-->
+<!--        app:cornerRadius="12dp"-->
+<!--        app:icon="@drawable/ic_add_circle"-->
+<!--        app:iconGravity="textStart"-->
+<!--        app:iconSize="24dp"-->
+<!--        app:iconTint="@color/white"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:elevation="2dp"-->
+<!--        app:rippleColor="@color/primary_ripple" />-->
+
+    <!-- Recent Bets Section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lịch sử cược"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:layout_marginBottom="12dp" />
+
+    <!-- RecyclerView with Card Background -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="@color/card_background">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Bottom Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/btnViewHistory"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="56dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Lịch sử"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textColor="@color/primary_color"-->
+<!--            app:backgroundTint="@color/secondary_button"-->
+<!--            app:cornerRadius="12dp"-->
+<!--            app:strokeColor="@color/primary_color"-->
+<!--            app:strokeWidth="1dp"-->
+<!--            app:icon="@drawable/ic_history"-->
+<!--            app:iconGravity="textStart"-->
+<!--            app:iconSize="20dp"-->
+<!--            app:iconTint="@color/primary_color"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />-->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnWallet"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="Ví tiền"
+            android:textColor="@color/primary_color"
+            android:textSize="14sp"
+            app:backgroundTint="@color/secondary_button"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/ic_account_balance_wallet"
+            app:iconGravity="textStart"
+            app:iconSize="20dp"
+            app:iconTint="@color/primary_color"
+            app:strokeColor="@color/primary_color"
+            app:strokeWidth="1dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
