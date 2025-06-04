@@ -21,6 +21,7 @@ public class StartActivity extends AppCompatActivity {
     ImageButton btnVolume;
     Button btnStart;
     boolean isPlaying = true;
+    private boolean isRegistered = false;  // ✅ Biến theo dõi trạng thái đăng ký
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +59,13 @@ public class StartActivity extends AppCompatActivity {
 
         // Nút Start (ban đầu bị vô hiệu)
         btnStart = findViewById(R.id.btnStart);
-        btnStart.setEnabled(false);
-        btnStart.setAlpha(0.5f);
+        if (isRegistered) {
+            btnStart.setEnabled(true);
+            btnStart.setAlpha(1.0f);
+        } else {
+            btnStart.setEnabled(false);
+            btnStart.setAlpha(0.5f);
+        }
         btnStart.setOnClickListener(v -> {
             if (mediaPlayer != null) {
                 mediaPlayer.stop();
@@ -83,9 +89,10 @@ public class StartActivity extends AppCompatActivity {
 
         // Nút Guide
         Button btnGuide = findViewById(R.id.btnGuide);
-        if (btnGuide != null) {
-            btnGuide.setOnClickListener(v -> Toast.makeText(this, "Hướng dẫn đang được cập nhật!", Toast.LENGTH_SHORT).show());
-        }
+        btnGuide.setOnClickListener(v -> {
+            Intent intent = new Intent(StartActivity.this, GuideActivity.class);
+            startActivity(intent);
+        });
 
         // Nút Rotate
         Button btnRotate = findViewById(R.id.btnRotate);
@@ -104,21 +111,38 @@ public class StartActivity extends AppCompatActivity {
             Intent intent = new Intent(StartActivity.this, RegisterActivity.class);
             startActivityForResult(intent, REQUEST_REGISTER);
         });
+
+        // Phục hồi trạng thái nếu có
+        if (savedInstanceState != null) {
+            isRegistered = savedInstanceState.getBoolean("isRegistered", false);
+            if (isRegistered && btnStart != null) {
+                btnStart.setEnabled(true);
+                btnStart.setAlpha(1.0f);
+            }
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_REGISTER && resultCode == RESULT_OK) {
+            isRegistered = true;
             btnStart.setEnabled(true);
             btnStart.setAlpha(1.0f);
             Toast.makeText(this, "✅ Đăng ký thành công! Bạn có thể bắt đầu chơi.", Toast.LENGTH_SHORT).show();
         }
     }
 
+    // ✅ Lưu trạng thái khi xoay màn hình
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("isRegistered", isRegistered);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Không release mediaPlayer tại đây nếu muốn nhạc chạy xuyên suốt khi xoay màn hình
+        // Không release mediaPlayer tại đây để tiếp tục phát nhạc khi xoay màn hình
     }
 }
