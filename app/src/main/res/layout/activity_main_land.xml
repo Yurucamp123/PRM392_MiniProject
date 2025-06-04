@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_land"
-    tools:context=".MainActivity">
+    tools:context=".StartActivity">
 
     <!-- Tên game -->
 
@@ -26,18 +26,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Nút Start -->
+
     <TextView
         android:id="@+id/tvCoins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginEnd="20dp"
         android:text="Coins: 1200"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintVertical_bias="0.161" />
 
-    <!-- Nút Start -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStart"
         android:layout_width="180dp"
@@ -75,24 +79,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="20dp" />
 
-    <!-- Nút âm lượng -->
-
-    <!-- Nút xoay -->
-
-    <ImageButton
-        android:id="@+id/btnVolume"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_margin="20dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_volume"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.992"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.116" />
-
     <Button
         android:id="@+id/btnRotate"
         android:layout_width="wrap_content"
@@ -103,5 +89,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="20dp" />
+
+    <!-- Nút âm lượng -->
+    <ImageButton
+        android:id="@+id/btnVolume"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Volume"
+        android:src="@drawable/ic_volume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
