@@ -14,24 +14,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MiniProject_CarRacing"
-        tools:targetApi="31">
-
-        <!-- Activity khởi chạy -->
+        tools:targetApi="31"
+        >
+          <!-- Activity khởi chạy -->
         <activity
             android:name=".StartActivity"
 
             android:exported="true">
-<!--            />-->
-<!--        <activity-->
-<!--            android:name=".MainActivity"-->
-<!--            android:exported="false">-->
+        <activity
+            android:name=".BetActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".RacingActivity"
+            android:label="Racing"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Activity chuyển đến layout đăng ký -->
+<!--        <activity android:name=".BetAdapter"/>-->
+        <activity android:name=".WalletActivity" />
+        <activity android:name=".RaceHistoryActivity" />
+       <!-- Activity chuyển đến layout đăng ký -->
         <activity android:name=".RegisterActivity" />
 
         <!-- Nếu có IntroActivity -->
