@@ -19,7 +19,12 @@
         <!-- Activity khởi chạy -->
         <activity
             android:name=".StartActivity"
+
             android:exported="true">
+<!--            />-->
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="false">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,7 +35,8 @@
         <activity android:name=".RegisterActivity" />
 
         <!-- Nếu có IntroActivity -->
-        <activity android:name=".IntroActivity" />
+        <activity android:name=".RacingActivity" />
+
 
     </application>
 </manifest>
