@@ -23,7 +23,7 @@ public class BetActivity extends AppCompatActivity {
     private BetAdapter adapter;
     private TextView tvBalance;
 
-    // Betting variables
+    // Betting variables - đồng bộ với RacingActivity
     private final String[] carNames = {"Xe đua đỏ", "Xe đua đen", "Xe mô tô xanh"};
     private final int[] carNumbers = {1, 2, 3};
 
@@ -45,27 +45,35 @@ public class BetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bet);
 
-        RecyclerView rv = findViewById(R.id.recyclerView);
-//        Button btnAddBet = findViewById(R.id.btnAddBet);
-        Button btnWallet = findViewById(R.id.btnWallet);
+        initViews();
+        setupAdapter();
+        setupClickListeners();
+        updateBalanceUI();
+    }
 
+    private void initViews() {
         tvBalance = findViewById(R.id.tvBalance);
+    }
 
+    private void setupAdapter() {
+        RecyclerView rv = findViewById(R.id.recyclerView);
         adapter = new BetAdapter(GameSession.betHistory);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
+    }
 
-        updateBalanceUI();
-
+    private void setupClickListeners() {
+        Button btnWallet = findViewById(R.id.btnWallet);
         btnWallet.setOnClickListener(v -> {
             Intent intent = new Intent(BetActivity.this, WalletActivity.class);
             startActivityForResult(intent, 100);
         });
 
-//        btnAddBet.setOnClickListener(v -> {
-//            Log.d("BetActivity", "btnAddBet clicked");
-//            showMultipleBetDialog();
-//        });
+        // Thêm click listener cho tvBalance để mở dialog đặt cược
+        tvBalance.setOnClickListener(v -> showMultipleBetDialog());
+
+        // Thêm nút quay lại RacingActivity (nếu cần)
+        // Có thể sử dụng ActionBar hoặc Toolbar
     }
 
     private void showMultipleBetDialog() {
@@ -117,6 +125,15 @@ public class BetActivity extends AppCompatActivity {
         });
 
         builder.setNegativeButton("❌ Hủy", (dialog, which) -> dialog.cancel());
+
+        // Nút quay lại đua xe
+        builder.setNeutralButton("🏁 Về Đua Xe", (dialog, which) -> {
+            dialog.dismiss();
+            Intent intent = new Intent(BetActivity.this, RacingActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
         builder.show();
     }
 
@@ -272,6 +289,7 @@ public class BetActivity extends AppCompatActivity {
         int raceId = rand.nextInt(1000) + 1;
         int winningCarIndex = rand.nextInt(3); // 0, 1, or 2
         String winningCarName = carNames[winningCarIndex];
+        double odds = 2.5; // Tỷ lệ cược cho BetActivity
 
         // Tính toán tổng số tiền cược
         double totalBetAmount = 0;
@@ -292,20 +310,22 @@ public class BetActivity extends AppCompatActivity {
             boolean isWin = (bet.carIndex == winningCarIndex);
 
             String betResult;
+            String result;
             if (isWin) {
                 // Xe thắng: được cộng lại số tiền đã đặt (lấy lại tiền gốc)
                 double winAmount = bet.amount;
                 GameSession.balance += winAmount;
                 totalWinAmount += winAmount;
                 betResult = "THẮNG (Lấy lại: " + formatCurrency(winAmount) + ")";
+                result = "THẮNG +" + formatCurrency(winAmount);
             } else {
                 // Xe thua: mất tiền cược (đã trừ ở trên)
                 betResult = "THUA (Mất: " + formatCurrency(bet.amount) + ")";
+                result = "THUA -" + formatCurrency(bet.amount);
             }
 
-            // Thêm vào lịch sử
-            Bet newBet = new Bet(raceId, bet.amount, isWin ? "WIN" : "LOSE", dateTime, winningCarName);
-            newBet.setSelectedCar(bet.carName);
+            // Thêm vào lịch sử với constructor mới
+            Bet newBet = new Bet(raceId, bet.amount, result, dateTime, winningCarName, bet.carName, odds);
             GameSession.betHistory.add(0, newBet);
 
             // Thêm vào chi tiết kết quả
@@ -342,6 +362,23 @@ public class BetActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK) {
             updateBalanceUI();
+            adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Cập nhật UI khi quay lại
+        updateBalanceUI();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Khi bấm back, quay về RacingActivity
+        Intent intent = new Intent(BetActivity.this, RacingActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

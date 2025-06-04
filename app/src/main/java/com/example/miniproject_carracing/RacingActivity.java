@@ -2,6 +2,7 @@ package com.example.miniproject_carracing;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -25,6 +26,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.IOException;
 import java.util.Random;
 
+import model.Bet;
+import model.GameSession;
+
 public class RacingActivity extends AppCompatActivity implements OnListenerClickCheckbox {
 
     private SeekBar mSeekBar1, mSeekBar2, mSeekBar3;
@@ -38,15 +42,28 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
     private Handler mHandler;
     private Runnable mRunnable;
     private int mCountDownNumber;
-    private int mPlayerMoney = 100000;
+    // Xóa mPlayerMoney local, sử dụng GameSession.balance thay thế
     private int mTotalBet = 0;
     private boolean isBetConfirmed = false;
     private MediaPlayer mpButton, mpRacingEffect, mpCount, mpError, mpWin, mpLose, mpMusic;
+
+    // Tên xe để đồng bộ với BetActivity
+    private final String[] carNames = {"Xe đua đỏ", "Xe đua đen", "Xe mô tô xanh"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_racing);
+
+        initViews();
+        initMediaPlayers();
+        setupCheckboxListeners();
+        setupButtonListeners();
+        setupDialog();
+        updateMoneyUI();
+    }
+
+    private void initViews() {
         mCheckBox1 = findViewById(R.id.checkbox_1);
         mCheckBox2 = findViewById(R.id.checkbox_2);
         mCheckBox3 = findViewById(R.id.checkbox_3);
@@ -63,20 +80,10 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
         mTvPlayerMoney = findViewById(R.id.tv_player_money);
         mTvTotalBet = findViewById(R.id.tv_total_bet);
 
-        mDialog = new Dialog(this);
-        mDialog.setContentView(R.layout.alert_winner_dialog);
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mDialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
-
-        mButtonPlayAgain = mDialog.findViewById(R.id.btn_playAgain);
-        mButtonExit = mDialog.findViewById(R.id.btn_exit);
-        mTvResult = mDialog.findViewById(R.id.tv_result);
-        mResultImage = mDialog.findViewById(R.id.img_result);
-
         mHandler = new Handler();
+    }
 
+    private void initMediaPlayers() {
         mpButton = MediaPlayer.create(this, R.raw.game_button);
         mpRacingEffect = MediaPlayer.create(this, R.raw.game_car_racing_effect);
         mpCount = MediaPlayer.create(this, R.raw.game_count);
@@ -86,7 +93,9 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
         mpMusic = MediaPlayer.create(this, R.raw.game_music);
         mpMusic.setLooping(true);
         mpMusic.start();
+    }
 
+    private void setupCheckboxListeners() {
         CompoundButton.OnCheckedChangeListener checkLimitListener = (buttonView, isChecked) -> {
             int countChecked = 0;
             if (mCheckBox1.isChecked()) countChecked++;
@@ -101,7 +110,9 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
         mCheckBox1.setOnCheckedChangeListener(checkLimitListener);
         mCheckBox2.setOnCheckedChangeListener(checkLimitListener);
         mCheckBox3.setOnCheckedChangeListener(checkLimitListener);
+    }
 
+    private void setupButtonListeners() {
         Button btnHome = findViewById(R.id.btn_home);
         btnHome.setOnClickListener(v -> {
             playSound(mpButton);
@@ -131,9 +142,31 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
             showConfirmBetDialog();
         });
 
-        setupDialogButtons();
-        updateMoneyUI();
+        // Nút Ví tiền chuyển sang BetActivity
+        Button btnWallet = findViewById(R.id.btn_wallet);
+        btnWallet.setOnClickListener(v -> {
+            playSound(mpButton);
+            Intent intent = new Intent(RacingActivity.this, BetActivity.class);
+            startActivity(intent);
+        });
     }
+
+    private void setupDialog() {
+        mDialog = new Dialog(this);
+        mDialog.setContentView(R.layout.alert_winner_dialog);
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
+
+        mButtonPlayAgain = mDialog.findViewById(R.id.btn_playAgain);
+        mButtonExit = mDialog.findViewById(R.id.btn_exit);
+        mTvResult = mDialog.findViewById(R.id.tv_result);
+        mResultImage = mDialog.findViewById(R.id.img_result);
+
+        setupDialogButtons();
+    }
+
     private void showConfirmBetDialog() {
         int bet1 = parseBetAmount(mEtBetAmount1.getText().toString());
         int bet2 = parseBetAmount(mEtBetAmount2.getText().toString());
@@ -158,7 +191,8 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
             return;
         }
 
-        if (totalBetTemp > mPlayerMoney) {
+        // Sử dụng GameSession.balance thay vì mPlayerMoney
+        if (totalBetTemp > GameSession.balance) {
             playSound(mpError);
             Toast.makeText(this, "Số tiền cược vượt quá số tiền hiện có", Toast.LENGTH_SHORT).show();
             return;
@@ -166,7 +200,7 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
 
         new AlertDialog.Builder(this)
                 .setTitle("Xác nhận đặt cược")
-                .setMessage("Bạn có muốn đặt cược tổng cộng " + totalBetTemp + " không?")
+                .setMessage("Bạn có muốn đặt cược tổng cộng " + formatCurrency(totalBetTemp) + " không?")
                 .setPositiveButton("Xác nhận", (dialog, which) -> {
                     mTotalBet = totalBetTemp;
                     isBetConfirmed = true;
@@ -221,7 +255,7 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
                     mHandler.removeCallbacks(this);
                     setControlsEnabled(true);
 
-                    // Dừng hiệu ứng đua xe và chuẩn bị lại
+                    // Dừng hiệu ứng đua xe
                     if (mpRacingEffect != null && mpRacingEffect.isPlaying()) {
                         mpRacingEffect.stop();
                         try {
@@ -240,25 +274,36 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
                     else if (mSeekBar2.getProgress() == maxProgress) winner = 2;
                     else if (mSeekBar3.getProgress() == maxProgress) winner = 3;
 
-                    // Lưu lại số tiền trước khi cộng
-                    int oldMoney = mPlayerMoney;
+                    // Lưu lại số tiền trước khi tính toán
+                    double oldBalance = GameSession.balance;
 
-                    int winAmount = 0;
+                    // Áp dụng logic tính tiền mới: xe thắng lấy lại tiền gốc, xe thua mất tiền
+                    double totalBetAmount = mTotalBet;
+                    double totalWinAmount = 0;
+
+                    // Trừ tổng tiền cược trước
+                    GameSession.balance -= totalBetAmount;
+
+                    // Tính tiền thắng (chỉ lấy lại tiền gốc)
                     if (winner == 1 && mCheckBox1.isChecked()) {
-                        winAmount += parseBetAmount(mEtBetAmount1.getText().toString()) * 2;
+                        totalWinAmount += parseBetAmount(mEtBetAmount1.getText().toString());
                     }
                     if (winner == 2 && mCheckBox2.isChecked()) {
-                        winAmount += parseBetAmount(mEtBetAmount2.getText().toString()) * 2;
+                        totalWinAmount += parseBetAmount(mEtBetAmount2.getText().toString());
                     }
                     if (winner == 3 && mCheckBox3.isChecked()) {
-                        winAmount += parseBetAmount(mEtBetAmount3.getText().toString()) * 2;
+                        totalWinAmount += parseBetAmount(mEtBetAmount3.getText().toString());
                     }
 
-                    // Cập nhật tiền: trừ cược và cộng thưởng nếu có
-                    mPlayerMoney = mPlayerMoney - mTotalBet + winAmount;
+                    // Cộng lại tiền thắng
+                    GameSession.balance += totalWinAmount;
 
-                    // So sánh tiền để xác định Win / Lose
-                    if (mPlayerMoney >= oldMoney) {
+                    // Xác định Win/Lose và lưu vào lịch sử
+                    saveRaceHistory(winner, totalBetAmount, totalWinAmount);
+
+                    // Hiển thị kết quả
+                    boolean isWin = GameSession.balance >= oldBalance;
+                    if (isWin) {
                         playSound(mpWin);
                         mResultImage.setImageResource(R.drawable.ic_winner_cup);
                         mTvResult.setText("You Win!!!");
@@ -286,7 +331,38 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
         mHandler.post(mRunnable);
     }
 
+    private void saveRaceHistory(int winner, double totalBetAmount, double totalWinAmount) {
+        String dateTime = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date());
+        Random rand = new Random();
+        int raceId = rand.nextInt(1000) + 1;
+        String winningCarName = carNames[winner - 1]; // winner là 1,2,3 nên trừ 1
+        double odds = 2.0; // Tỷ lệ cược cho Racing
 
+        // Lưu từng cược vào lịch sử
+        if (mCheckBox1.isChecked()) {
+            double betAmount = parseBetAmount(mEtBetAmount1.getText().toString());
+            boolean isWin = (winner == 1);
+            String result = isWin ? "THẮNG +" + formatCurrency(betAmount) : "THUA -" + formatCurrency(betAmount);
+            Bet bet = new Bet(raceId, betAmount, result, dateTime, winningCarName, carNames[0], odds);
+            GameSession.betHistory.add(0, bet);
+        }
+
+        if (mCheckBox2.isChecked()) {
+            double betAmount = parseBetAmount(mEtBetAmount2.getText().toString());
+            boolean isWin = (winner == 2);
+            String result = isWin ? "THẮNG +" + formatCurrency(betAmount) : "THUA -" + formatCurrency(betAmount);
+            Bet bet = new Bet(raceId, betAmount, result, dateTime, winningCarName, carNames[1], odds);
+            GameSession.betHistory.add(0, bet);
+        }
+
+        if (mCheckBox3.isChecked()) {
+            double betAmount = parseBetAmount(mEtBetAmount3.getText().toString());
+            boolean isWin = (winner == 3);
+            String result = isWin ? "THẮNG +" + formatCurrency(betAmount) : "THUA -" + formatCurrency(betAmount);
+            Bet bet = new Bet(raceId, betAmount, result, dateTime, winningCarName, carNames[2], odds);
+            GameSession.betHistory.add(0, bet);
+        }
+    }
 
     private void playSound(MediaPlayer mp) {
         if (mp != null) {
@@ -305,8 +381,13 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
     }
 
     private void updateMoneyUI() {
-        mTvPlayerMoney.setText("Số tiền hiện có: " + mPlayerMoney);
-        mTvTotalBet.setText("Tổng cược: " + mTotalBet);
+        // Sử dụng GameSession.balance và format currency giống BetActivity
+        mTvPlayerMoney.setText("Số tiền hiện có: " + formatCurrency(GameSession.balance));
+        mTvTotalBet.setText("Tổng cược: " + formatCurrency(mTotalBet));
+    }
+
+    private String formatCurrency(double amount) {
+        return String.format("%,.0f", amount).replace(',', '.') + " VND";
     }
 
     private int getRandomNumber(int bound) {
@@ -347,6 +428,7 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
 
         if (mDialog.isShowing()) mDialog.dismiss();
     }
+
     private void setupDialogButtons() {
         mButtonPlayAgain.setOnClickListener(v -> {
             playSound(mpButton);
@@ -361,15 +443,36 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        // Cập nhật UI khi quay lại từ BetActivity hoặc activity khác
+        updateMoneyUI();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mpMusic != null) mpMusic.release();
-        if (mpButton != null) mpButton.release();
-        if (mpCount != null) mpCount.release();
-        if (mpError != null) mpError.release();
-        if (mpRacingEffect != null) mpRacingEffect.release();
-        if (mpWin != null) mpWin.release();
-        if (mpLose != null) mpLose.release();
+        // Release all MediaPlayer resources
+        releaseMediaPlayer(mpMusic);
+        releaseMediaPlayer(mpButton);
+        releaseMediaPlayer(mpCount);
+        releaseMediaPlayer(mpError);
+        releaseMediaPlayer(mpRacingEffect);
+        releaseMediaPlayer(mpWin);
+        releaseMediaPlayer(mpLose);
+    }
+
+    private void releaseMediaPlayer(MediaPlayer mp) {
+        if (mp != null) {
+            try {
+                if (mp.isPlaying()) {
+                    mp.stop();
+                }
+                mp.release();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

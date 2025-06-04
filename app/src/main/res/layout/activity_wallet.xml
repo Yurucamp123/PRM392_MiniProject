@@ -39,7 +39,7 @@
                 android:layout_height="48dp"
                 android:src="@drawable/ic_wallet"
                 android:background="@drawable/circle_background"
-                android:backgroundTint="@color/accent_light"
+                android:backgroundTint="@color/button_primary"
                 android:padding="12dp"
                 android:contentDescription="Ví tiền" />
 
