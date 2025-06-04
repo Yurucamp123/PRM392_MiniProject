@@ -16,7 +16,7 @@
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:orientation="horizontal"
-        android:weightSum="4"
+        android:weightSum="5"
         android:background="#1976D2"
         android:padding="8dp"
         android:elevation="4dp"
@@ -26,7 +26,8 @@
         android:layout_marginBottom="16dp"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:gravity="center">
+        android:gravity="center"
+        >
 
         <Button
             android:id="@+id/btn_start"
@@ -45,7 +46,8 @@
             android:drawablePadding="8dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:gravity="center_vertical|start"/>
+            android:gravity="center_vertical|start"
+            />
 
         <Button
             android:id="@+id/btn_reset"
@@ -98,6 +100,24 @@
             android:fontFamily="sans-serif-medium"
             android:elevation="6dp"
             android:drawableStart="@drawable/ic_home"
+            android:drawablePadding="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:gravity="center_vertical|start"/>
+
+        <Button
+            android:id="@+id/btn_wallet"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Ví tiền"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:backgroundTint="#1565C0"
+            android:fontFamily="sans-serif-medium"
+            android:elevation="6dp"
+            android:drawableStart="@drawable/circle_background"
             android:drawablePadding="8dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
