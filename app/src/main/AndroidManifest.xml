@@ -13,8 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiniProject_CarRacing"
         tools:targetApi="31">
-
-        <!-- ✅ Đặt StartActivity làm màn hình chính -->
         <activity
             android:name=".StartActivity"
             android:exported="true">
@@ -23,18 +21,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Các activity khác -->
         <activity android:name=".RacingActivity"
             android:label="Racing"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="true"
             android:screenOrientation="landscape" />
-
         <activity android:name=".RegisterActivity" />
         <activity android:name=".WalletActivity" />
         <activity android:name=".RaceHistoryActivity" />
         <activity android:name=".BetActivity" />
+        <activity android:name=".ResultActivity" android:exported="true"/>
+        <activity android:name=".ResultLoseActivity" android:exported="true"/>
 
     </application>
 </manifest>

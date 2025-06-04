@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <!-- Lớp nền mờ -->
     <View
         android:id="@+id/dimBackground"
         android:layout_width="0dp"
@@ -13,6 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+    <!-- Ô vuông hiển thị kết quả -->
     <androidx.cardview.widget.CardView
         android:id="@+id/resultCard"
         android:layout_width="0dp"
@@ -24,6 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,10 +38,10 @@
             android:gravity="center_horizontal"
             android:background="#FF7043">
             <TextView
-                android:id="@+id/tvWinner"
+                android:id="@+id/tvLoser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Winner: "
+                android:text="Loser: "
                 android:textSize="24sp"
                 android:textColor="#FFD700"
                 android:paddingBottom="12dp"/>
@@ -44,7 +50,7 @@
                 android:id="@+id/imgTrophy"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/trophy"
+                android:src="@drawable/break_trophy"
                 android:contentDescription="Trophy"
                 android:layout_marginBottom="16dp" />
 
@@ -52,7 +58,7 @@
                 android:id="@+id/tvBetResult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bạn đã thắng: 0 VNĐ"
+                android:text="Bạn đã thua: 0 VNĐ"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
                 android:gravity="center"
@@ -65,7 +71,7 @@
                 android:gravity="center">
 
                 <Button
-                    android:id="@+id/btnPlayAgain1"
+                    android:id="@+id/btnPlayAgain2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

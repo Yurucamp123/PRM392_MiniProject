@@ -10,39 +10,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class ResultActivity extends AppCompatActivity {
-
-    TextView tvWinner, tvBetResult;
+public class ResultLoseActivity extends AppCompatActivity {
+    TextView tvLoser, tvBetResult;
     Button btnPlayAgain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result);
+        setContentView(R.layout.activity_result_lose);
 
         // Mapping views
-        tvWinner = (TextView) findViewById(R.id.tvWinner);
-        tvBetResult = (TextView) findViewById(R.id.tvBetResult);
-        btnPlayAgain = (Button) findViewById(R.id.btnPlayAgain1);
+        tvLoser = findViewById(R.id.tvLoser);
+        tvBetResult = findViewById(R.id.tvBetResult);
+        btnPlayAgain = findViewById(R.id.btnPlayAgain2);
 
-        // Get the data from the intent
+        // Get the result data from the intent
         Intent intent = getIntent();
-        String winner = intent.getStringExtra("WINNER");
-        boolean isBetCorrect = intent.getBooleanExtra("BET_RESULT", false);
-        int rewardAmount = intent.getIntExtra("REWARD_AMOUNT", 0);
-
-        tvWinner.setText("Winner: " + winner);
+        boolean isBetCorrect = intent.getBooleanExtra("BET_RESULT", false); // Lose case
+        int rewardAmount = intent.getIntExtra("LOST_AMOUNT", 0);
         String formattedAmount = NumberFormat.getInstance(new Locale("vi", "VN")).format(rewardAmount);
-
-        if (isBetCorrect) {
-            tvBetResult.setText("Bạn đã thắng: " + formattedAmount + " VNĐ");
+        tvLoser.setText("Thua cuộc!");
+        if (!isBetCorrect) {
+            tvBetResult.setText("Bạn đã thua: " + formattedAmount + " VNĐ");
         }
         // Play again button
         btnPlayAgain.setOnClickListener(v -> {
-            Intent i = new Intent(ResultActivity.this, RacingActivity.class);
+            Intent i = new Intent(ResultLoseActivity.this, RacingActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Ensure we go back to the racing screen
             startActivity(i);
         });
     }
 }
+
 
