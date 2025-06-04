@@ -46,7 +46,7 @@ public class BetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bet);
 
         RecyclerView rv = findViewById(R.id.recyclerView);
-        Button btnAddBet = findViewById(R.id.btnAddBet);
+//        Button btnAddBet = findViewById(R.id.btnAddBet);
         Button btnWallet = findViewById(R.id.btnWallet);
 
         tvBalance = findViewById(R.id.tvBalance);
@@ -62,10 +62,10 @@ public class BetActivity extends AppCompatActivity {
             startActivityForResult(intent, 100);
         });
 
-        btnAddBet.setOnClickListener(v -> {
-            Log.d("BetActivity", "btnAddBet clicked");
-            showMultipleBetDialog();
-        });
+//        btnAddBet.setOnClickListener(v -> {
+//            Log.d("BetActivity", "btnAddBet clicked");
+//            showMultipleBetDialog();
+//        });
     }
 
     private void showMultipleBetDialog() {
