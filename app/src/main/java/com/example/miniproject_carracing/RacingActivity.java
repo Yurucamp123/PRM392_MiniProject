@@ -55,7 +55,7 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.acitivity_racing);
+        setContentView(R.layout.activity_racing);
 
         initViews();
         initMediaPlayers();
