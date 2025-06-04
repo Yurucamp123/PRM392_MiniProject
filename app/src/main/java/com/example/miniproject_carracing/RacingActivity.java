@@ -1,9 +1,7 @@
 package com.example.miniproject_carracing;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -39,21 +37,16 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
     private CountDownTimer mCountDownTimer2;
     private Handler mHandler;
     private Runnable mRunnable;
-
     private int mCountDownNumber;
     private int mPlayerMoney = 100000;
     private int mTotalBet = 0;
     private boolean isBetConfirmed = false;
-
     private MediaPlayer mpButton, mpRacingEffect, mpCount, mpError, mpWin, mpLose, mpMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_racing);
-
-
-
         mCheckBox1 = findViewById(R.id.checkbox_1);
         mCheckBox2 = findViewById(R.id.checkbox_2);
         mCheckBox3 = findViewById(R.id.checkbox_3);
@@ -84,10 +77,10 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
 
         mHandler = new Handler();
 
-        mpButton = MediaPlayer.create(this, R.raw.button);
-        mpRacingEffect = MediaPlayer.create(this, R.raw.car_racing_effect);
-        mpCount = MediaPlayer.create(this, R.raw.count);
-        mpError = MediaPlayer.create(this, R.raw.error);
+        mpButton = MediaPlayer.create(this, R.raw.game_button);
+        mpRacingEffect = MediaPlayer.create(this, R.raw.game_car_racing_effect);
+        mpCount = MediaPlayer.create(this, R.raw.game_count);
+        mpError = MediaPlayer.create(this, R.raw.game_error);
         mpWin = MediaPlayer.create(this, R.raw.game_win);
         mpLose = MediaPlayer.create(this, R.raw.game_lose);
         mpMusic = MediaPlayer.create(this, R.raw.game_music);
@@ -141,7 +134,6 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
         setupDialogButtons();
         updateMoneyUI();
     }
-
     private void showConfirmBetDialog() {
         int bet1 = parseBetAmount(mEtBetAmount1.getText().toString());
         int bet2 = parseBetAmount(mEtBetAmount2.getText().toString());
@@ -349,7 +341,6 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
 
         if (mDialog.isShowing()) mDialog.dismiss();
     }
-
     private void setupDialogButtons() {
         mButtonPlayAgain.setOnClickListener(v -> {
             playSound(mpButton);
