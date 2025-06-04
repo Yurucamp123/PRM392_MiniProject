@@ -98,6 +98,13 @@ public class StartActivity extends AppCompatActivity {
                 Toast.makeText(this, "Xoay dọc", Toast.LENGTH_SHORT).show();
             }
         });
+
+        Button btnRegister = findViewById(R.id.btnRegister);
+        btnRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(StartActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     @Override
