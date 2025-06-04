@@ -213,13 +213,15 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
                 mSeekBar2.setProgress(mSeekBar2.getProgress() + getRandomNumber(3));
                 mSeekBar3.setProgress(mSeekBar3.getProgress() + getRandomNumber(3));
 
-                boolean finished = mSeekBar1.getProgress() >= 100 || mSeekBar2.getProgress() >= 100 || mSeekBar3.getProgress() >= 100;
+                boolean finished = mSeekBar1.getProgress() >= 100 ||
+                        mSeekBar2.getProgress() >= 100 ||
+                        mSeekBar3.getProgress() >= 100;
 
                 if (finished) {
                     mHandler.removeCallbacks(this);
                     setControlsEnabled(true);
 
-                    // Dừng hiệu ứng đua xe và chuẩn bị lại cho lần chơi tiếp theo
+                    // Dừng hiệu ứng đua xe và chuẩn bị lại
                     if (mpRacingEffect != null && mpRacingEffect.isPlaying()) {
                         mpRacingEffect.stop();
                         try {
@@ -231,34 +233,37 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
 
                     // Xác định xe thắng
                     int winner = 0;
-                    int maxProgress = Math.max(mSeekBar1.getProgress(), Math.max(mSeekBar2.getProgress(), mSeekBar3.getProgress()));
+                    int maxProgress = Math.max(mSeekBar1.getProgress(),
+                            Math.max(mSeekBar2.getProgress(), mSeekBar3.getProgress()));
+
                     if (mSeekBar1.getProgress() == maxProgress) winner = 1;
                     else if (mSeekBar2.getProgress() == maxProgress) winner = 2;
                     else if (mSeekBar3.getProgress() == maxProgress) winner = 3;
 
-                    // Kiểm tra người chơi thắng/thua
-                    boolean playerWin = false;
-                    int winAmount = 0;
+                    // Lưu lại số tiền trước khi cộng
+                    int oldMoney = mPlayerMoney;
 
+                    int winAmount = 0;
                     if (winner == 1 && mCheckBox1.isChecked()) {
-                        playerWin = true;
-                        winAmount = parseBetAmount(mEtBetAmount1.getText().toString()) * 2;
-                    } else if (winner == 2 && mCheckBox2.isChecked()) {
-                        playerWin = true;
-                        winAmount = parseBetAmount(mEtBetAmount2.getText().toString()) * 2;
-                    } else if (winner == 3 && mCheckBox3.isChecked()) {
-                        playerWin = true;
-                        winAmount = parseBetAmount(mEtBetAmount3.getText().toString()) * 2;
+                        winAmount += parseBetAmount(mEtBetAmount1.getText().toString()) * 2;
+                    }
+                    if (winner == 2 && mCheckBox2.isChecked()) {
+                        winAmount += parseBetAmount(mEtBetAmount2.getText().toString()) * 2;
+                    }
+                    if (winner == 3 && mCheckBox3.isChecked()) {
+                        winAmount += parseBetAmount(mEtBetAmount3.getText().toString()) * 2;
                     }
 
-                    if (playerWin) {
+                    // Cập nhật tiền: trừ cược và cộng thưởng nếu có
+                    mPlayerMoney = mPlayerMoney - mTotalBet + winAmount;
+
+                    // So sánh tiền để xác định Win / Lose
+                    if (mPlayerMoney >= oldMoney) {
                         playSound(mpWin);
-                        mPlayerMoney = mPlayerMoney - mTotalBet + winAmount;
                         mResultImage.setImageResource(R.drawable.ic_winner_cup);
                         mTvResult.setText("You Win!!!");
                     } else {
                         playSound(mpLose);
-                        mPlayerMoney = mPlayerMoney - mTotalBet;
                         mResultImage.setImageResource(R.drawable.ic_game_over);
                         mTvResult.setText("You Lost!!!");
                     }
@@ -280,6 +285,7 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
 
         mHandler.post(mRunnable);
     }
+
 
 
     private void playSound(MediaPlayer mp) {
