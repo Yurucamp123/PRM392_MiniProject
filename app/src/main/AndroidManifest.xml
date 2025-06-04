@@ -1,24 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.miniproject_carracing">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-
-        <!-- Main Activity - Giữ nguyên landscape cho game -->
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MiniProject_CarRacing"
+        tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme">
+            android:name=".StartActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RacingActivity"
+            android:label="Racing"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true"
+            android:screenOrientation="landscape" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".WalletActivity" />
+        <activity android:name=".RaceHistoryActivity" />
+        <activity android:name=".BetActivity" />
+        <activity android:name=".ResultActivity" android:exported="true"/>
+        <activity android:name=".ResultLoseActivity" android:exported="true"/>
+
 
         <!-- Guide Activity - ĐỔI THÀNH PORTRAIT -->
         <activity
@@ -33,5 +47,4 @@
         </activity>
 
     </application>
-
 </manifest>
