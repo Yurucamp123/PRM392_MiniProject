@@ -32,7 +32,6 @@
 <!--        <activity android:name=".BetAdapter"/>-->
         <activity android:name=".WalletActivity" />
         <activity android:name=".RaceHistoryActivity" />
-
     </application>
 
 </manifest>

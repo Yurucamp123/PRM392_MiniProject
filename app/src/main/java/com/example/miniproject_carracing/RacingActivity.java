@@ -191,6 +191,18 @@ public class RacingActivity extends AppCompatActivity implements OnListenerClick
             return;
         }
 
+        if(totalBetTemp < 10000){
+            playSound(mpError);
+            Toast.makeText(this,"Đặt cược tối thiểu 10.000 VND", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //ràng buộc số chẵn
+        if (bet1 % 1000 != 0 || bet2 % 1000 != 0 || bet3 % 1000 != 0) {
+            playSound(mpError);
+            Toast.makeText(this, "Tiền cược phải là bội số của 1.000 VND", Toast.LENGTH_SHORT).show();
+            return;
+        }
         // Sử dụng GameSession.balance thay vì mPlayerMoney
         if (totalBetTemp > GameSession.balance) {
             playSound(mpError);
