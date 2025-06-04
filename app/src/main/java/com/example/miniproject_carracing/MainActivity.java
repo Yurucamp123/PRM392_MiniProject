@@ -11,16 +11,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        Button btnGuide = findViewById(R.id.btnGuide);
-        btnGuide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Mở màn hình hướng dẫn
-                Intent intent = new Intent(MainActivity.this, GuideActivity.class);
-                startActivity(intent);
-            }
-        });
+        // Directly start GuideActivity without showing menu
+        Intent intent = new Intent(MainActivity.this, GuideActivity.class);
+        startActivity(intent);
+        finish(); // Close MainActivity so user can't go back to it
     }
 }
