@@ -32,18 +32,10 @@ public class BetAdapter extends RecyclerView.Adapter<BetAdapter.BetViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull BetViewHolder holder, int position) {
         Bet bet = betList.get(position);
-
-        // Race ID
         holder.tvRaceId.setText("Cuộc đua: #" + bet.getRaceId());
-
-        // Amount - hiển thị với format đẹp
         holder.tvAmount.setText("Số tiền: " + formatCurrency(bet.getAmount()));
-
-        // Result với styling theo trạng thái
         String status = bet.getBetStatus();
         holder.tvResult.setText(status);
-
-        // Styling cho status badge
         if ("WIN".equals(status)) {
             holder.tvResult.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.success));
             holder.tvResult.setText("🎉 THẮNG");
@@ -51,7 +43,6 @@ public class BetAdapter extends RecyclerView.Adapter<BetAdapter.BetViewHolder> {
             holder.tvResult.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.error));
             holder.tvResult.setText("😔 THUA");
         } else {
-            // Để tương thích với code cũ
             if (status != null && status.contains("THẮNG")) {
                 holder.tvResult.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.success));
                 holder.tvResult.setText("🎉 THẮNG");
@@ -61,7 +52,6 @@ public class BetAdapter extends RecyclerView.Adapter<BetAdapter.BetViewHolder> {
             }
         }
 
-        // Car information với icon cho thắng/thua
         String selectedCar = bet.getSelectedCar();
         String winningCar = bet.getWinningCar();
 
@@ -102,8 +92,6 @@ public class BetAdapter extends RecyclerView.Adapter<BetAdapter.BetViewHolder> {
     private String formatCurrency(double amount) {
         return String.format("%,.0f", amount).replace(',', '.') + " VND";
     }
-
-    // Method to update the bet list
     public void updateBetList(List<Bet> newBetList) {
         this.betList = newBetList;
         notifyDataSetChanged();

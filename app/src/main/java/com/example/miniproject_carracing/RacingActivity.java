@@ -129,7 +129,6 @@ public class RacingActivity extends AppCompatActivity {
             showConfirmBetDialog();
         });
 
-        // Nút Ví tiền chuyển sang BetActivity
         Button btnWallet = findViewById(R.id.btn_wallet);
         btnWallet.setOnClickListener(v -> {
             playSound(mpButton);
@@ -167,13 +166,12 @@ public class RacingActivity extends AppCompatActivity {
             return;
         }
 
-        //ràng buộc số chẵn
         if (bet1 % 1000 != 0 || bet2 % 1000 != 0 || bet3 % 1000 != 0) {
             playSound(mpError);
             Toast.makeText(this, "Tiền cược phải là bội số của 1.000 VND", Toast.LENGTH_SHORT).show();
             return;
         }
-        // Sử dụng GameSession.balance thay vì mPlayerMoney
+
         if (totalBetTemp > GameSession.balance) {
             playSound(mpError);
             Toast.makeText(this, "Số tiền cược vượt quá số tiền hiện có", Toast.LENGTH_SHORT).show();
@@ -235,7 +233,6 @@ public class RacingActivity extends AppCompatActivity {
                     mHandler.removeCallbacks(this);
                     setControlsEnabled(true);
 
-                    // Stop racing sound
                     if (mpRacingEffect != null && mpRacingEffect.isPlaying()) {
                         mpRacingEffect.stop();
                         try {
@@ -245,7 +242,6 @@ public class RacingActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Determine the winner
                     int winner = 0;
                     int maxProgress = Math.max(mSeekBar1.getProgress(),
                             Math.max(mSeekBar2.getProgress(), mSeekBar3.getProgress()));
@@ -253,8 +249,6 @@ public class RacingActivity extends AppCompatActivity {
                     if (mSeekBar1.getProgress() == maxProgress) winner = 1;
                     else if (mSeekBar2.getProgress() == maxProgress) winner = 2;
                     else if (mSeekBar3.getProgress() == maxProgress) winner = 3;
-
-                    // Record old balance for comparison
                     double oldBalance = GameSession.balance;
                     double totalBetAmount = mTotalBet;
                     double totalWinAmount = 0;
@@ -262,24 +256,23 @@ public class RacingActivity extends AppCompatActivity {
                     if (winner == 1 && mCheckBox1.isChecked()) {
                         totalWinAmount += parseBetAmount(mEtBetAmount1.getText().toString());
                     } else if (mCheckBox1.isChecked()) {
-                        totalLostAmount += parseBetAmount(mEtBetAmount1.getText().toString()); // Loss for this bet
+                        totalLostAmount += parseBetAmount(mEtBetAmount1.getText().toString());
                     }
 
                     if (winner == 2 && mCheckBox2.isChecked()) {
                         totalWinAmount += parseBetAmount(mEtBetAmount2.getText().toString());
                     } else if (mCheckBox2.isChecked()) {
-                        totalLostAmount += parseBetAmount(mEtBetAmount2.getText().toString()); // Loss for this bet
+                        totalLostAmount += parseBetAmount(mEtBetAmount2.getText().toString());
                     }
 
                     if (winner == 3 && mCheckBox3.isChecked()) {
                         totalWinAmount += parseBetAmount(mEtBetAmount3.getText().toString());
                     } else if (mCheckBox3.isChecked()) {
-                        totalLostAmount += parseBetAmount(mEtBetAmount3.getText().toString()); // Loss for this bet
+                        totalLostAmount += parseBetAmount(mEtBetAmount3.getText().toString());
                     }
                     boolean isWin = totalWinAmount >= totalLostAmount;
                     if (isWin) {
                         playSound(mpWin);
-                        // Pass the winner info to ResultActivity
                         Intent intent = new Intent(RacingActivity.this, ResultActivity.class);
                         intent.putExtra("WINNER", carNames[winner - 1]);
                         intent.putExtra("BET_RESULT", true); // Win
@@ -289,7 +282,6 @@ public class RacingActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else {
                         playSound(mpLose);
-                        // Pass the result info to ResultLoseActivity with the amount lost
                         Intent intent = new Intent(RacingActivity.this, ResultLoseActivity.class);
                         intent.putExtra("BET_RESULT", false); // Lose
                         intent.putExtra("LOST_AMOUNT", (int) (totalLostAmount - totalWinAmount));
@@ -312,10 +304,9 @@ public class RacingActivity extends AppCompatActivity {
         String dateTime = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date());
         Random rand = new Random();
         int raceId = rand.nextInt(1000) + 1;
-        String winningCarName = carNames[winner - 1]; // winner là 1,2,3 nên trừ 1
-        double odds = 2.0; // Tỷ lệ cược cho Racing
+        String winningCarName = carNames[winner - 1];
+        double odds = 2.0;
 
-        // Lưu từng cược vào lịch sử
         if (mCheckBox1.isChecked()) {
             double betAmount = parseBetAmount(mEtBetAmount1.getText().toString());
             boolean isWin = (winner == 1);
@@ -355,7 +346,6 @@ public class RacingActivity extends AppCompatActivity {
         }
     }
     private void updateMoneyUI() {
-        // Sử dụng GameSession.balance và format currency giống BetActivity
         mTvPlayerMoney.setText("Số tiền hiện có: " + formatCurrency(GameSession.balance));
         mTvTotalBet.setText("Tổng cược: " + formatCurrency(mTotalBet));
     }
@@ -399,13 +389,11 @@ public class RacingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Cập nhật UI khi quay lại từ BetActivity hoặc activity khác
         updateMoneyUI();
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Release all MediaPlayer resources
         releaseMediaPlayer(mpMusic);
         releaseMediaPlayer(mpButton);
         releaseMediaPlayer(mpCount);

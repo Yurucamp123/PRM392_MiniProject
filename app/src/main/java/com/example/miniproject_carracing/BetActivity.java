@@ -23,11 +23,11 @@ public class BetActivity extends AppCompatActivity {
     private BetAdapter adapter;
     private TextView tvBalance;
 
-    // Betting variables - đồng bộ với RacingActivity
+
     private final String[] carNames = {"Xe đua đỏ", "Xe đua đen", "Xe mô tô xanh"};
     private final int[] carNumbers = {1, 2, 3};
 
-    // Class để lưu thông tin cược
+
     private static class BetInfo {
         int carIndex;
         double amount;
@@ -69,38 +69,35 @@ public class BetActivity extends AppCompatActivity {
             startActivityForResult(intent, 100);
         });
 
-        // Thêm click listener cho tvBalance để mở dialog đặt cược
         tvBalance.setOnClickListener(v -> showMultipleBetDialog());
 
-        // Thêm nút quay lại RacingActivity (nếu cần)
-        // Có thể sử dụng ActionBar hoặc Toolbar
     }
 
     private void showMultipleBetDialog() {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setTitle("🏁 Đặt Cược Đua Xe (Tối đa 2 xe)");
 
-        // Tạo view cho dialog
+
         LinearLayout dialogLayout = new LinearLayout(this);
         dialogLayout.setOrientation(LinearLayout.VERTICAL);
         dialogLayout.setPadding(50, 30, 50, 30);
 
-        // Hiển thị số dư
+
         TextView tvCurrentBalance = new TextView(this);
         tvCurrentBalance.setText("Số dư hiện tại: " + formatCurrency(GameSession.balance));
         tvCurrentBalance.setTextSize(16);
         tvCurrentBalance.setPadding(0, 0, 0, 20);
         dialogLayout.addView(tvCurrentBalance);
 
-        // Container cho các cược
+
         LinearLayout betsContainer = new LinearLayout(this);
         betsContainer.setOrientation(LinearLayout.VERTICAL);
 
-        // Cược 1
+
         LinearLayout bet1Layout = createBetLayout("🚗 Cược 1:", 1);
         betsContainer.addView(bet1Layout);
 
-        // Divider
+
         View divider = new View(this);
         divider.setBackgroundColor(0xFFCCCCCC);
         LinearLayout.LayoutParams dividerParams = new LinearLayout.LayoutParams(
@@ -109,7 +106,7 @@ public class BetActivity extends AppCompatActivity {
         divider.setLayoutParams(dividerParams);
         betsContainer.addView(divider);
 
-        // Cược 2
+
         LinearLayout bet2Layout = createBetLayout("🏎️ Cược 2 (Tùy chọn):", 2);
         betsContainer.addView(bet2Layout);
 
@@ -117,7 +114,7 @@ public class BetActivity extends AppCompatActivity {
 
         builder.setView(dialogLayout);
 
-        // Xử lý nút Đặt cược
+
         builder.setPositiveButton("🎯 Đặt Cược", (dialog, which) -> {
             if (processMultipleBets(bet1Layout, bet2Layout)) {
                 dialog.dismiss();
@@ -126,7 +123,7 @@ public class BetActivity extends AppCompatActivity {
 
         builder.setNegativeButton("❌ Hủy", (dialog, which) -> dialog.cancel());
 
-        // Nút quay lại đua xe
+
         builder.setNeutralButton("🏁 Về Đua Xe", (dialog, which) -> {
             dialog.dismiss();
             Intent intent = new Intent(BetActivity.this, RacingActivity.class);
@@ -142,14 +139,14 @@ public class BetActivity extends AppCompatActivity {
         betLayout.setOrientation(LinearLayout.VERTICAL);
         betLayout.setPadding(10, 10, 10, 10);
 
-        // Title
+
         TextView tvTitle = new TextView(this);
         tvTitle.setText(title);
         tvTitle.setTextSize(16);
         tvTitle.setPadding(0, 0, 0, 10);
         betLayout.addView(tvTitle);
 
-        // Chọn xe
+
         TextView tvCarLabel = new TextView(this);
         tvCarLabel.setText("Chọn xe:");
         tvCarLabel.setTextSize(14);
@@ -169,7 +166,7 @@ public class BetActivity extends AppCompatActivity {
         }
         betLayout.addView(carGroup);
 
-        // Nhập số tiền
+
         TextView tvAmountLabel = new TextView(this);
         tvAmountLabel.setText("💰 Số tiền cược:");
         tvAmountLabel.setTextSize(14);
@@ -183,7 +180,6 @@ public class BetActivity extends AppCompatActivity {
         etAmount.setTag("amount" + betNumber);
         betLayout.addView(etAmount);
 
-        // Quick buttons
         LinearLayout quickButtonsLayout = new LinearLayout(this);
         quickButtonsLayout.setOrientation(LinearLayout.HORIZONTAL);
         quickButtonsLayout.setPadding(0, 5, 0, 0);
@@ -213,7 +209,7 @@ public class BetActivity extends AppCompatActivity {
     private boolean processMultipleBets(LinearLayout bet1Layout, LinearLayout bet2Layout) {
         List<BetInfo> bets = new ArrayList<>();
 
-        // Xử lý cược 1
+
         BetInfo bet1 = getBetInfoFromLayout(bet1Layout, 1);
         if (bet1 != null) {
             bets.add(bet1);
@@ -222,19 +218,18 @@ public class BetActivity extends AppCompatActivity {
             return false;
         }
 
-        // Xử lý cược 2 (tùy chọn)
         BetInfo bet2 = getBetInfoFromLayout(bet2Layout, 2);
         if (bet2 != null) {
             bets.add(bet2);
         }
 
-        // Kiểm tra trùng xe
+
         if (bets.size() == 2 && bets.get(0).carIndex == bets.get(1).carIndex) {
             Toast.makeText(this, "Không thể đặt cược 2 xe giống nhau!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // Kiểm tra tổng số tiền
+
         double totalAmount = 0;
         for (BetInfo bet : bets) {
             totalAmount += bet.amount;
@@ -245,26 +240,26 @@ public class BetActivity extends AppCompatActivity {
             return false;
         }
 
-        // Thực hiện đặt cược
+
         placeMultipleBets(bets);
         return true;
     }
 
     private BetInfo getBetInfoFromLayout(LinearLayout betLayout, int betNumber) {
-        // Lấy RadioGroup
+
         RadioGroup carGroup = betLayout.findViewWithTag("carGroup" + betNumber);
         int checkedId = carGroup.getCheckedRadioButtonId();
 
         if (checkedId == -1) {
-            return null; // Không chọn xe
+            return null;
         }
 
-        // Lấy EditText
+
         EditText etAmount = betLayout.findViewWithTag("amount" + betNumber);
         String amountText = etAmount.getText().toString();
 
         if (amountText.isEmpty()) {
-            return null; // Không nhập số tiền
+            return null;
         }
 
         try {
@@ -274,7 +269,7 @@ public class BetActivity extends AppCompatActivity {
                 return null;
             }
 
-            int carIndex = checkedId % 10; // Lấy chỉ số xe từ ID
+            int carIndex = checkedId % 10;
             String carName = carNames[carIndex];
 
             return new BetInfo(carIndex, amount, carName);
@@ -287,24 +282,24 @@ public class BetActivity extends AppCompatActivity {
     private void placeMultipleBets(List<BetInfo> bets) {
         Random rand = new Random();
         int raceId = rand.nextInt(1000) + 1;
-        int winningCarIndex = rand.nextInt(3); // 0, 1, or 2
+        int winningCarIndex = rand.nextInt(3);
         String winningCarName = carNames[winningCarIndex];
-        double odds = 2.5; // Tỷ lệ cược cho BetActivity
+        double odds = 2.5;
 
-        // Tính toán tổng số tiền cược
+
         double totalBetAmount = 0;
         for (BetInfo bet : bets) {
             totalBetAmount += bet.amount;
         }
 
-        // Trừ tổng số tiền cược từ balance
+
         GameSession.balance -= totalBetAmount;
 
         double totalWinAmount = 0;
         StringBuilder resultDetails = new StringBuilder();
         String dateTime = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date());
 
-        // Xử lý từng cược
+
         for (int i = 0; i < bets.size(); i++) {
             BetInfo bet = bets.get(i);
             boolean isWin = (bet.carIndex == winningCarIndex);
@@ -312,30 +307,25 @@ public class BetActivity extends AppCompatActivity {
             String betResult;
             String result;
             if (isWin) {
-                // Xe thắng: được cộng lại số tiền đã đặt (lấy lại tiền gốc)
                 double winAmount = bet.amount;
                 GameSession.balance += winAmount;
                 totalWinAmount += winAmount;
                 betResult = "THẮNG (Lấy lại: " + formatCurrency(winAmount) + ")";
                 result = "THẮNG +" + formatCurrency(winAmount);
             } else {
-                // Xe thua: mất tiền cược (đã trừ ở trên)
                 betResult = "THUA (Mất: " + formatCurrency(bet.amount) + ")";
                 result = "THUA -" + formatCurrency(bet.amount);
             }
 
-            // Thêm vào lịch sử với constructor mới
             Bet newBet = new Bet(raceId, bet.amount, result, dateTime, winningCarName, bet.carName, odds);
             GameSession.betHistory.add(0, newBet);
-
-            // Thêm vào chi tiết kết quả
             resultDetails.append(String.format("Cược %d: %s - %s\n", i + 1, bet.carName, betResult));
         }
 
         adapter.notifyDataSetChanged();
         updateBalanceUI();
 
-        // Hiển thị kết quả tổng hợp
+
         double netResult = totalWinAmount - totalBetAmount;
         String summaryMessage = String.format(
                 "%s\n\n%s\nXe thắng: %s\n\nKết quả: %s\nSố dư còn lại: %s",
@@ -369,14 +359,12 @@ public class BetActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Cập nhật UI khi quay lại
         updateBalanceUI();
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onBackPressed() {
-        // Khi bấm back, quay về RacingActivity
         Intent intent = new Intent(BetActivity.this, RacingActivity.class);
         startActivity(intent);
         finish();

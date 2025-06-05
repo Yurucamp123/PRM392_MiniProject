@@ -40,7 +40,6 @@ public class GuideActivity extends AppCompatActivity {
         adapter = new GuidePagerAdapter(guideItems);
         viewPager.setAdapter(adapter);
 
-        // Kết nối TabLayout với ViewPager2
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {
                     switch (position) {
@@ -68,28 +67,28 @@ public class GuideActivity extends AppCompatActivity {
     private List<GuideItem> createGuideItems() {
         List<GuideItem> items = new ArrayList<>();
 
-        // Tab 1: Cách Chơi
+
         items.add(new GuideItem(
                 "🎮 Cách Chơi Game Đua Xe",
                 "Hướng dẫn chi tiết cách chơi game",
                 createGameplayContent()
         ));
 
-        // Tab 2: Thể Lệ
+
         items.add(new GuideItem(
                 "📋 Thể Lệ và Quy Định",
                 "Các quy định khi tham gia game",
                 createRulesContent()
         ));
 
-        // Tab 3: Mẹo Hay
+
         items.add(new GuideItem(
                 "💡 Mẹo Chơi Hiệu Quả",
                 "Những mẹo giúp bạn chơi tốt hơn",
                 createTipsContent()
         ));
 
-        // Tab 4: Điều Khiển
+
         items.add(new GuideItem(
                 "🎛️ Hướng Dẫn Điều Khiển",
                 "Cách sử dụng các nút điều khiển",
@@ -209,7 +208,6 @@ public class GuideActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
     }
 
-    // Inner class cho GuideItem
     public static class GuideItem {
         private String title;
         private String subtitle;
@@ -221,7 +219,6 @@ public class GuideActivity extends AppCompatActivity {
             this.content = content;
         }
 
-        // Getters
         public String getTitle() { return title; }
         public String getSubtitle() { return subtitle; }
         public String getContent() { return content; }

@@ -33,16 +33,11 @@
         <activity android:name=".ResultLoseActivity" android:exported="true"/>
 
 
-        <!-- Guide Activity - ĐỔI THÀNH PORTRAIT -->
         <activity
             android:name=".GuideActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/GuideTheme"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+            android:theme="@style/GuideTheme">
         </activity>
 
     </application>

@@ -22,9 +22,8 @@ public class RaceHistoryActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewRaceHistory);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true); // tối ưu hiệu suất
+        recyclerView.setHasFixedSize(true);
 
-        // Tránh null pointer
         betList = GameSession.betHistory != null ? GameSession.betHistory : new ArrayList<>();
 
         adapter = new BetAdapter(betList);

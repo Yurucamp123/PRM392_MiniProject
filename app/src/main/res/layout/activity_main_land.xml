@@ -8,9 +8,6 @@
     android:background="@drawable/background_land"
     tools:context=".StartActivity">
 
-    <!-- Tên game -->
-
-    <!-- Coins -->
 
     <TextView
         android:id="@+id/gameTitle"
@@ -38,7 +35,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp" />
 
-    <!-- Nút Guide -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGuide"
         android:layout_width="180dp"
@@ -51,7 +47,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp" />
 
-    <!-- Nút Exit -->
     <Button
         android:id="@+id/btnExit"
         android:layout_width="wrap_content"
@@ -62,6 +57,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="20dp" />
+
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
@@ -88,7 +84,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="20dp" />
 
-    <!-- Nút âm lượng -->
     <ImageButton
         android:id="@+id/btnVolume"
         android:layout_width="52dp"

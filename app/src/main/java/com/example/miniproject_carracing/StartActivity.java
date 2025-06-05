@@ -24,18 +24,15 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Thiết lập layout theo hướng màn hình
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             setContentView(R.layout.activity_main_land);
         } else {
             setContentView(R.layout.activity_start);
         }
 
-        // Phát nhạc nền bằng MusicManager (intro.mp3)
         MusicManager.getInstance().playMusic(this, R.raw.intro);
         Toast.makeText(this, "🔊 Âm thanh: Đang phát", Toast.LENGTH_SHORT).show();
 
-        // Nút điều khiển âm thanh
         btnVolume = findViewById(R.id.btnVolume);
         btnVolume.setOnClickListener(v -> {
             MusicManager manager = MusicManager.getInstance();
@@ -48,18 +45,14 @@ public class StartActivity extends AppCompatActivity {
             }
         });
 
-        // Nút Start (chỉ bật sau khi đăng ký)
         btnStart = findViewById(R.id.btnStart);
         updateStartButtonState();
         btnStart.setOnClickListener(v -> {
-            // Tắt nhạc nền chung (intro)
             MusicManager.getInstance().stop();
 
-            // Vào màn chơi chính
             startActivity(new Intent(this, RacingActivity.class));
         });
 
-        // Nút Exit
         Button btnExit = findViewById(R.id.btnExit);
         btnExit.setOnClickListener(v -> {
             Toast.makeText(this, "Thoát game", Toast.LENGTH_SHORT).show();
@@ -67,7 +60,6 @@ public class StartActivity extends AppCompatActivity {
             finishAffinity();
         });
 
-        // Nút Guide
         Button btnGuide = findViewById(R.id.btnGuide);
         btnGuide.setOnClickListener(v -> {
             startActivity(new Intent(this, GuideActivity.class));
@@ -84,14 +76,12 @@ public class StartActivity extends AppCompatActivity {
             );
         });
 
-        // Nút Đăng ký
         Button btnRegister = findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(v -> {
             Intent intent = new Intent(StartActivity.this, RegisterActivity.class);
             startActivityForResult(intent, REQUEST_REGISTER);
         });
 
-        // Khôi phục trạng thái
         if (savedInstanceState != null) {
             isRegistered = savedInstanceState.getBoolean("isRegistered", false);
             updateStartButtonState();

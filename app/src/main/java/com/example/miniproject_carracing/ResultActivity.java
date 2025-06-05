@@ -20,12 +20,9 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        // Mapping views
         tvWinner = (TextView) findViewById(R.id.tvWinner);
         tvBetResult = (TextView) findViewById(R.id.tvBetResult);
         btnPlayAgain = (Button) findViewById(R.id.btnPlayAgain1);
-
-        // Get the data from the intent
         Intent intent = getIntent();
         String winner = intent.getStringExtra("WINNER");
         boolean isBetCorrect = intent.getBooleanExtra("BET_RESULT", false);
@@ -37,10 +34,10 @@ public class ResultActivity extends AppCompatActivity {
         if (isBetCorrect) {
             tvBetResult.setText("Bạn đã thắng: " + formattedAmount + " VNĐ");
         }
-        // Play again button
+
         btnPlayAgain.setOnClickListener(v -> {
             Intent i = new Intent(ResultActivity.this, RacingActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Ensure we go back to the racing screen
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
         });
     }

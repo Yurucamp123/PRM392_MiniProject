@@ -1,17 +1,11 @@
 package com.example.miniproject_carracing;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -50,10 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-
-            // 👉 Trả kết quả cho StartActivity
             setResult(RESULT_OK);
-            finish(); // quay lại StartActivity
+            finish();
         });
 
 
@@ -61,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> {
             Intent intent = new Intent(RegisterActivity.this, StartActivity.class);
             startActivity(intent);
-            finish(); // Đóng RegisterActivity
+            finish();
         });
     }
 }
