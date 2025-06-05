@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base Application Theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent_color</item>
+        <item name="android:windowBackground">@color/background_primary</item>
+    </style>
+
+    <!-- Button Styles -->
+    <style name="PrimaryButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_height">56dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="backgroundTint">@color/primary_color</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="rippleColor">@color/primary_ripple</item>
+        <item name="android:elevation">2dp</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="GuideTheme" parent="AppTheme">
+        <item name="android:statusBarColor">@color/primary_color</item>
+        <item name="android:navigationBarColor">@color/primary_color</item>
+    </style>
+
+    <!-- Title Text Style -->
+    <style name="TitleTextStyle">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <!-- Subtitle Text Style -->
+    <style name="SubtitleTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <!-- Content Text Style -->
+    <style name="ContentTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:layout_marginBottom">12dp</item>
+    </style>
+
+    <style name="BalanceTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <!-- Button Style -->
+    <style name="RoundedButtonStyle">
+        <item name="android:background">@drawable/rounded_button_background</item>
+         <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <!-- Card Styles -->
+    <!-- Card Style -->
+    <style name="GuideCardStyle">
+        <item name="cardCornerRadius">15dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="cardBackgroundColor">@color/card_balance</item>
+    </style>
+
+    <style name="ContentCard">
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardBackgroundColor">@color/card_background</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="contentPadding">20dp</item>
+    </style>
+</resources>
