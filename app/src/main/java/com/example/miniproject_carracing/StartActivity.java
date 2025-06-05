@@ -3,9 +3,7 @@ package com.example.miniproject_carracing;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -16,12 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public class StartActivity extends AppCompatActivity {
 
     private static final int REQUEST_REGISTER = 1001;
-    private static MediaPlayer mediaPlayer;
 
     ImageButton btnVolume;
     Button btnStart;
     boolean isPlaying = true;
-    private boolean isRegistered = false;  // ✅ Biến theo dõi trạng thái đăng ký
+    private boolean isRegistered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,44 +31,31 @@ public class StartActivity extends AppCompatActivity {
             setContentView(R.layout.activity_start);
         }
 
-        // Nhạc nền
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, R.raw.intro);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.start();
-            Log.d("AUDIO", "MediaPlayer started: " + mediaPlayer.isPlaying());
-            Toast.makeText(this, "🔊 Âm thanh: Đang phát", Toast.LENGTH_SHORT).show();
-        }
+        // Phát nhạc nền bằng MusicManager (intro.mp3)
+        MusicManager.getInstance().playMusic(this, R.raw.intro);
+        Toast.makeText(this, "🔊 Âm thanh: Đang phát", Toast.LENGTH_SHORT).show();
 
-        // Nút Volume
+        // Nút điều khiển âm thanh
         btnVolume = findViewById(R.id.btnVolume);
         btnVolume.setOnClickListener(v -> {
-            if (mediaPlayer != null) {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
-                    Toast.makeText(this, "🔇 Âm thanh đã tắt", Toast.LENGTH_SHORT).show();
-                } else {
-                    mediaPlayer.start();
-                    Toast.makeText(this, "🔊 Âm thanh đã bật", Toast.LENGTH_SHORT).show();
-                }
+            MusicManager manager = MusicManager.getInstance();
+            if (manager.isPlaying()) {
+                manager.pause();
+                Toast.makeText(this, "🔇 Âm thanh đã tắt", Toast.LENGTH_SHORT).show();
+            } else {
+                manager.resume();
+                Toast.makeText(this, "🔊 Âm thanh đã bật", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Nút Start (ban đầu bị vô hiệu)
+        // Nút Start (chỉ bật sau khi đăng ký)
         btnStart = findViewById(R.id.btnStart);
-        if (isRegistered) {
-            btnStart.setEnabled(true);
-            btnStart.setAlpha(1.0f);
-        } else {
-            btnStart.setEnabled(false);
-            btnStart.setAlpha(0.5f);
-        }
+        updateStartButtonState();
         btnStart.setOnClickListener(v -> {
-            if (mediaPlayer != null) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
-                mediaPlayer = null;
-            }
+            // Tắt nhạc nền chung (intro)
+            MusicManager.getInstance().stop();
+
+            // Vào màn chơi chính
             startActivity(new Intent(this, RacingActivity.class));
         });
 
@@ -79,19 +63,14 @@ public class StartActivity extends AppCompatActivity {
         Button btnExit = findViewById(R.id.btnExit);
         btnExit.setOnClickListener(v -> {
             Toast.makeText(this, "Thoát game", Toast.LENGTH_SHORT).show();
-            if (mediaPlayer != null) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
-                mediaPlayer = null;
-            }
+            MusicManager.getInstance().stop();  // Dừng nhạc nếu thoát hẳn
             finishAffinity();
         });
 
         // Nút Guide
         Button btnGuide = findViewById(R.id.btnGuide);
         btnGuide.setOnClickListener(v -> {
-            Intent intent = new Intent(StartActivity.this, GuideActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, GuideActivity.class));
         });
 
         // Nút Rotate
@@ -112,13 +91,17 @@ public class StartActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_REGISTER);
         });
 
-        // Phục hồi trạng thái nếu có
+        // Khôi phục trạng thái
         if (savedInstanceState != null) {
             isRegistered = savedInstanceState.getBoolean("isRegistered", false);
-            if (isRegistered && btnStart != null) {
-                btnStart.setEnabled(true);
-                btnStart.setAlpha(1.0f);
-            }
+            updateStartButtonState();
+        }
+    }
+
+    private void updateStartButtonState() {
+        if (btnStart != null) {
+            btnStart.setEnabled(isRegistered);
+            btnStart.setAlpha(isRegistered ? 1.0f : 0.5f);
         }
     }
 
@@ -127,22 +110,14 @@ public class StartActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_REGISTER && resultCode == RESULT_OK) {
             isRegistered = true;
-            btnStart.setEnabled(true);
-            btnStart.setAlpha(1.0f);
+            updateStartButtonState();
             Toast.makeText(this, "✅ Đăng ký thành công! Bạn có thể bắt đầu chơi.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // ✅ Lưu trạng thái khi xoay màn hình
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("isRegistered", isRegistered);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Không release mediaPlayer tại đây để tiếp tục phát nhạc khi xoay màn hình
     }
 }
